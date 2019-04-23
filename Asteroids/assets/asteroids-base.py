@@ -3,6 +3,7 @@
 # Importando as bibliotecas necessárias.
 import pygame
 from os import path
+import random
 
 # Estabelece a pasta que contem as figuras.
 img_dir = path.join(path.dirname(__file__), 'img')
@@ -48,6 +49,28 @@ class Player(pygame.sprite.Sprite):
         #     self.rect.right = 0
 
 
+class Mob(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+
+        meteor_img = pygame.image.load(path.join(img_dir, "meteorBrown_med1.png"))
+        self.image = meteor_img
+        self.image.set_colorkey(BLACK)
+
+        self.rect = self.image.get_rect()
+
+        # self.rect.centerx = random.randint(0, WIDTH)
+        # self.rect.bottom = random.randint(-100, -40)
+        self.rect.centerx=0
+        self.rect.top=0
+
+        self.speedx = random.randint(-3, 3)
+        self.speedy = random.randint(2, 9)
+
+    def update(self):
+        self.rect.x += self.speedx
+
+
 
 
 # Inicialização do Pygame.
@@ -72,6 +95,14 @@ player = Player()
 
 all_sprites = pygame.sprite.Group()
 all_sprites.add(player)
+
+all_meteors = pygame.sprite.Group()
+
+for i in range(8):
+    meteor = Mob()
+    all_meteors.add(meteor)
+    all_sprites.add(meteor)
+
 
 
 # Comando para evitar travamentos.
